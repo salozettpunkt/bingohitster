@@ -1,4 +1,4 @@
-const colors = ["yellow", "purple", "pink", "blue", "green"];
+const colors = ["yellow", "purple", "#d6336c", "blue", "green"];
 
 function generateBingoBoard() {
     const board = [];
