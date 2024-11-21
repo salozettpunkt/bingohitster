@@ -35,9 +35,19 @@ function generateBingoBoard() {
             cell.classList.add('cell');
             cell.style.backgroundColor = randomColor;
 
-            // Klick-Event für das Feld
+             // Speichere die ursprüngliche Farbe als Attribut
+            cell.setAttribute('data-original-color', randomColor);
+            
+             // Klick-Event für das Feld
             cell.addEventListener('click', () => {
-                cell.style.backgroundColor = 'gray';
+                const currentColor = cell.style.backgroundColor;
+                if (currentColor === 'gray') {
+                    // Wiederherstellen der Originalfarbe
+                    cell.style.backgroundColor = cell.getAttribute('data-original-color');
+                } else {
+                    // Setzen auf grau
+                    cell.style.backgroundColor = 'gray';
+                }
                 checkBingo();
             });
 
