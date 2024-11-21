@@ -5,22 +5,40 @@ function generateBingoBoard() {
     const bingoBoard = document.getElementById('bingo-board');
     bingoBoard.innerHTML = '';
 
+    // Initialisiere Arrays für Zeilen- und Spaltenzählung
+    const rowColorCounts = Array.from({ length: bingoSize }, () => ({}));
+    const colColorCounts = Array.from({ length: bingoSize }, () => ({}));
+
     for (let i = 0; i < bingoSize; i++) {
         const row = document.createElement('div');
         row.classList.add('row');
 
         for (let j = 0; j < bingoSize; j++) {
+            let availableColors = [...colors];
+
+            // Filtere Farben, die die Grenze in der Zeile oder Spalte überschreiten würden
+            availableColors = availableColors.filter(
+                color =>
+                    (rowColorCounts[i][color] || 0) < 2 &&
+                    (colColorCounts[j][color] || 0) < 2
+            );
+
+            // Wähle eine zufällige Farbe aus den verbleibenden
+            const randomColor = availableColors[Math.floor(Math.random() * availableColors.length)];
+
+            // Aktualisiere die Zählung für Zeile und Spalte
+            rowColorCounts[i][randomColor] = (rowColorCounts[i][randomColor] || 0) + 1;
+            colColorCounts[j][randomColor] = (colColorCounts[j][randomColor] || 0) + 1;
+
+            // Erstelle die Zelle
             const cell = document.createElement('div');
             cell.classList.add('cell');
-
-            // Setze eine zufällige Hintergrundfarbe
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
             cell.style.backgroundColor = randomColor;
 
             // Klick-Event für das Feld
             cell.addEventListener('click', () => {
-                cell.style.backgroundColor = 'gray'; // Klicke, um es grau zu machen
-                checkBingo(); // Überprüfen, ob ein Bingo erzielt wurde
+                cell.style.backgroundColor = 'gray';
+                checkBingo();
             });
 
             row.appendChild(cell);
