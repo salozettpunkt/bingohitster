@@ -52,3 +52,7 @@ function generateBingoBoard() {
         bingoBoard.appendChild(row);
     }
 }
+
+// Starte das Bingo-Board beim Laden der Seite
+window.onload = generateBingoBoard;
+
